@@ -24,16 +24,14 @@ const Info = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  ${tablet({
-    // background: 'pink'
-  })}
 `;
+
 const Title = styled.h1`
   color: white;
   margin-bottom: 20px;
   ${tablet({
     // background: 'green',
-    flex: 2,
+    flex: 1,
     alignItems: 'end',
     justifyContent: 'center',
     display: 'flex',
