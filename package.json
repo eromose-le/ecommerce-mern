@@ -19,5 +19,6 @@
   "homepage": "https://github.com/eromose-le/ecommerce-mern#readme",
   "devDependencies": {
     "concurrently": "^6.3.0"
-  }
+  },
+  "dependencies": {}
 }

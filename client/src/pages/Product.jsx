@@ -1,13 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+
+import { publicRequest } from '../../src/requestMethods';
+import { addProduct } from '../redux/cartRedux';
+import { useDispatch } from 'react-redux';
+
 import styled from 'styled-components';
+import { mobile } from '../responsive';
+import { Add, Remove } from '@material-ui/icons';
+
 import Announcement from '../components/Announcement';
 import Navbar from '../components/Navbar';
 import Newsletter from '../components/Newsletter';
 import Footer from '../components/Footer';
-import { Add, InsertEmoticon, Remove } from '@material-ui/icons';
-import { mobile } from '../responsive';
-import { publicRequest } from '../../src/requestMethods';
 
 const Container = styled.div``;
 
@@ -125,6 +130,7 @@ const Product = () => {
   const [quantity, setQuantity] = useState(1);
   const [color, setColor] = useState('');
   const [size, setSize] = useState('');
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getProduct = async () => {
@@ -149,8 +155,9 @@ const Product = () => {
 
   const handleClick = () => {
     // UPDATE CART
+    dispatch(addProduct({ ...product, quantity, color, size }));
   };
-  
+
   return (
     <Container>
       <Announcement />
