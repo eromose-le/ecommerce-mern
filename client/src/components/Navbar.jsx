@@ -1,10 +1,11 @@
 import { Badge } from '@material-ui/core';
 import { Search, ShoppingCartOutlined } from '@material-ui/icons';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { mobile } from '../responsive';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { logout } from '../redux/apiCalls';
 
 const Container = styled.div`
   height: 60px;
@@ -78,10 +79,31 @@ const MenuItem = styled.div`
   })}
 `;
 
-const Navbar = () => {
-  const quantity = useSelector((state) => state.cart.quantity);
+const MenuItemText = styled.p`
+  color: black;
 
-  console.log(quantity);
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const Navbar = () => {
+  const [currentUser, setCurrentUser] = useState(null);
+  const dispatch = useDispatch();
+  const quantity = useSelector((state) => state.cart.quantity);
+  const user = useSelector((state) => state.user.currentUser);
+
+  const handleLogout = () => {
+    setCurrentUser(user);
+    try {
+      console.log('1st user', currentUser);
+      console.log('clicked');
+      logout(dispatch, { currentUser });
+      console.log('LAst user', currentUser);
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <Container>
       <Wrapper>
@@ -96,8 +118,22 @@ const Navbar = () => {
           <Logo>BA.</Logo>
         </Center>
         <Right>
-          <MenuItem>REGISTER</MenuItem>
-          <MenuItem>SIGN IN</MenuItem>
+          {!user ? (
+            <>
+              <Link style={{ textDecoration: 'none' }} to="/register">
+                <MenuItem>
+                  <MenuItemText>REGISTER</MenuItemText>
+                </MenuItem>
+              </Link>
+              <Link style={{ textDecoration: 'none' }} to="/login">
+                <MenuItem>
+                  <MenuItemText>SIGN IN</MenuItemText>
+                </MenuItem>
+              </Link>
+            </>
+          ) : (
+            <MenuItem onClick={handleLogout}>LOGOUT</MenuItem>
+          )}
           <Link to="/cart">
             <MenuItem>
               <Badge badgeContent={quantity} color="primary">

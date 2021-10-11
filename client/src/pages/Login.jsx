@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { mobile } from '../responsive';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../redux/apiCalls';
 
@@ -62,11 +63,16 @@ const Button = styled.button`
   }
 `;
 
-const Link = styled.a`
+const LinkText = styled.p`
   margin: 5px 0px;
   font-size: 12px;
   text-decoration: underline;
   cursor: pointer;
+  color: #272525;
+
+  &:hover {
+    color: gray;
+  }
 `;
 
 const Error = styled.span`
@@ -105,9 +111,11 @@ const Login = () => {
             LOGIN
           </Button>
           {error && <Error>Something went wrong...</Error>}
-          <Link>YOU DO NOT REMEMBER THE PASSWORD?</Link>
-          <Link>CREATE A NEW ACCOUNT</Link>
         </Form>
+        <LinkText>YOU DO NOT REMEMBER THE PASSWORD?</LinkText>
+        <Link to="/register">
+          <LinkText>CREATE A NEW ACCOUNT</LinkText>
+        </Link>
       </Wrapper>
     </Container>
   );

@@ -55,9 +55,10 @@
 
 // export default Success;
 
-import { useEffect } from 'react';
+// TODO IMPLEMENT ORDER CART
+// import { useEffect } from 'react';
 import { useLocation } from 'react-router';
-import { userRequest } from '../requestMethods';
+// import { userRequest } from '../requestMethods';
 
 const Success = () => {
   const location = useLocation();
