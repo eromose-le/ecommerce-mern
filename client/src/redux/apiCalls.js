@@ -6,6 +6,7 @@ import {
 } from './userRedux';
 import { publicRequest } from '../requestMethods';
 
+// AUTH
 export const login = async (dispatch, user) => {
   dispatch(loginStart());
   try {
@@ -19,3 +20,5 @@ export const login = async (dispatch, user) => {
 export const logout = async (dispatch, user) => {
   dispatch(logoutFunc(user));
 };
+
+// ORDER

@@ -13,6 +13,7 @@ import Announcement from '../components/Announcement';
 import Navbar from '../components/Navbar';
 import Newsletter from '../components/Newsletter';
 import Footer from '../components/Footer';
+import { useScrollToTop } from '../App';
 
 const Container = styled.div``;
 
@@ -24,11 +25,14 @@ const Wrapper = styled.div`
 
 const ImgContainer = styled.div`
   flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
 `;
 
 const Image = styled.img`
-  width: 100%;
-  height: 90vh;
+  max-width: 100%;
+  max-height: 35vh;
   object-fit: cover;
   ${mobile({ height: '40vh' })}
 `;
@@ -124,6 +128,7 @@ const Button = styled.button`
 `;
 
 const Product = () => {
+  useScrollToTop();
   const location = useLocation();
   const id = location.pathname.split('/')[2];
   const [product, setProduct] = useState({});
@@ -160,8 +165,8 @@ const Product = () => {
 
   return (
     <Container>
-      <Announcement />
       <Navbar />
+      <Announcement />
       <Wrapper>
         <ImgContainer>
           <Image src={product.img} />
@@ -169,7 +174,7 @@ const Product = () => {
         <InfoContainer>
           <Title>{product.title}</Title>
           <Desc>{product.desc}</Desc>
-          <Price>$ {product.price}</Price>
+          <Price>$ {product.price * quantity ?? product.price}</Price>
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>

@@ -58,17 +58,43 @@
 // TODO IMPLEMENT ORDER CART
 // import { useEffect } from 'react';
 import { useLocation } from 'react-router';
+import { Link } from 'react-router-dom';
 // import { userRequest } from '../requestMethods';
 
 const Success = () => {
   const location = useLocation();
-  const data = location.state.data;
+  const data = location.state;
+  console.log('LOCATION Data:', data);
 
-  console.log(data);
+  // GET SINGLE PRODUCT FROM OBJ
+  const productsId = data.cart.products.map((product) => {
+    return product._id;
+  });
+  console.log('<==> productsId ', productsId);
+
+  const userId = data.user._id;
+  console.log('<==> userId ', userId);
+
+  // EXCLUDE
+  const selectedProducts = data.cart.products.map(
+    ({ _id, quantity, price }) => ({
+      _id,
+      quantity,
+      price
+    })
+  );
+  console.log('<==> selectedProducts ', selectedProducts);
+
+  // CART
+  const cartTotal = data.cart.total;
+  const cartQuantity = data.cart.quantity;
+  console.log('<==> cartTotal ', cartTotal);
+  console.log('<==> cartQuantity ', cartQuantity);
 
   //TODO
-  //Create an order
-
+  // get userId
+  // get productId, quantity
+  // Create an order
   return (
     <div
       style={{
@@ -80,7 +106,9 @@ const Success = () => {
       }}
     >
       Successfull. Your order is being prepared...
-      <button style={{ padding: 10, marginTop: 20 }}>Go to Homepage</button>
+      <Link to="/">
+        <button style={{ padding: 10, marginTop: 20 }}>Go to Homepage</button>
+      </Link>
     </div>
   );
 };

@@ -6,8 +6,10 @@ import Categories from '../components/Categories';
 import Products from '../components/Products';
 import Newsletter from '../components/Newsletter';
 import Footer from '../components/Footer';
+import { useScrollToTop } from '../App';
 
 const Home = () => {
+  useScrollToTop();
   return (
     <div>
       <Announcement />

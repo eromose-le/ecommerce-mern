@@ -6,14 +6,23 @@ import Product from './pages/Product';
 import ProductList from './pages/ProductList';
 import Home from './pages/Home';
 // import Stripe from './pages/Stripe';
+import React, { useEffect } from 'react';
 
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect
+  Redirect,
+  useLocation
 } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+
+export const useScrollToTop = () => {
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [location]);
+};
 
 const App = () => {
   const user = useSelector((state) => state.user.currentUser);

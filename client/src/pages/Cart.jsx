@@ -5,7 +5,10 @@ import Footer from '../components/Footer';
 import styled from 'styled-components';
 import { Add, Remove } from '@material-ui/icons';
 import { mobile } from '../responsive';
-import { useSelector } from 'react-redux';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { resetCart } from '../redux/cartRedux';
+
 import { Link } from 'react-router-dom';
 import StripeCheckout from 'react-stripe-checkout';
 import { useEffect, useState } from 'react';
@@ -162,6 +165,9 @@ const Button = styled.button`
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
+  const user = useSelector((state) => state.user.currentUser);
+  const dispatch = useDispatch();
+
   const [stripeToken, setStripeToken] = useState(null);
   const history = useHistory();
 
@@ -177,13 +183,21 @@ const Cart = () => {
           amount: cart.total * 100
         });
         console.log(res.data);
-        history.push('/success', { data: res.data });
+        history.push('/success', { data: res.data, cart, user });
+        dispatch(resetCart());
       } catch (err) {
         console.log(err);
       }
     };
     stripeToken && cart.total >= 1 && makeRequest();
-  }, [stripeToken, cart.total, history]);
+  }, [stripeToken, cart.total, history, cart, dispatch, user]);
+
+  // const result2 = cart.products.map((product) => {
+  //   return product === product._id ? '000' : product;
+  // });
+  // const result = cart.products.map((product) => {
+  //   return product._id;
+  // });
 
   return (
     <Container>
