@@ -85,6 +85,14 @@ const Success = () => {
   );
   console.log('<==> selectedProducts ', selectedProducts);
 
+  // OR MODIFY CONTENTS
+  let modifiedProducts = data.cart.products.map((obj) => ({
+    productId: obj._id,
+    productQuantity: obj.quantity,
+    productPrice: obj.price
+  }));
+  console.log('<==> modifiedProducts', modifiedProducts);
+
   // CART
   const cartTotal = data.cart.total;
   const cartQuantity = data.cart.quantity;

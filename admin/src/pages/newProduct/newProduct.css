@@ -1,0 +1,40 @@
+.newProduct {
+  flex: 4;
+  margin: 20px;
+}
+
+.addProductForm {
+  margin-top: 0.7rem;
+}
+
+.addProductItem {
+  width: 15rem;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.7rem;
+}
+
+.addProductItem > label {
+  color: gray;
+  font-weight: 600;
+  margin-bottom: 0.7rem;
+}
+
+.addProductItem > input {
+  padding: 0.7rem;
+}
+
+.addProductItem > select {
+  padding: 0.7rem;
+}
+
+.addProductButton {
+  margin-top: 0.7rem;
+  padding: 0.5rem 0.7rem;
+  border: none;
+  border-radius: 10px;
+  background-color: darkblue;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}

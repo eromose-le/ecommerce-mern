@@ -26,6 +26,7 @@ const rootReducer = combineReducers({ user: userReducer, cart: cartReducer });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
+  // reducer: { user: userReducer, cart: persistReducer },
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
