@@ -56,48 +56,51 @@
 // export default Success;
 
 // TODO IMPLEMENT ORDER CART
-// import { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
-// import { userRequest } from '../requestMethods';
+import { userRequest } from '../requestMethods';
 
 const Success = () => {
   const location = useLocation();
   const data = location.state;
-  console.log('LOCATION Data:', data);
 
-  // GET SINGLE PRODUCT FROM OBJ
-  const productsId = data.cart.products.map((product) => {
-    return product._id;
-  });
-  console.log('<==> productsId ', productsId);
-
+  // _________________________________________________________
+  // GET USER ID
   const userId = data.user._id;
   console.log('<==> userId ', userId);
 
-  // EXCLUDE
-  const selectedProducts = data.cart.products.map(
-    ({ _id, quantity, price }) => ({
-      _id,
-      quantity,
-      price
-    })
-  );
-  console.log('<==> selectedProducts ', selectedProducts);
-
-  // OR MODIFY CONTENTS
-  let modifiedProducts = data.cart.products.map((obj) => ({
+  // GET PRODUCTS [{}]
+  const products = data.cart.products.map((obj) => ({
     productId: obj._id,
-    productQuantity: obj.quantity,
-    productPrice: obj.price
+    quantity: obj.quantity
   }));
-  console.log('<==> modifiedProducts', modifiedProducts);
+  console.log('<==> products ', products);
 
-  // CART
-  const cartTotal = data.cart.total;
-  const cartQuantity = data.cart.quantity;
-  console.log('<==> cartTotal ', cartTotal);
-  console.log('<==> cartQuantity ', cartQuantity);
+  // GET AMOUNT
+  // const amount = data.cart.total;
+  const amount = data.data.amount;
+  console.log('<==> amount ', amount / 100);
+
+  // GET ADDRESS
+  const address = data.data.billing_details.address;
+  console.log('address', address);
+
+  useEffect(() => {
+    const createOrders = async () => {
+      try {
+        const data = {
+          userId,
+          products,
+          amount: amount / 100,
+          address
+        };
+        const res = await userRequest.post('/orders', data);
+        console.log('res.data', res.data);
+      } catch (err) {}
+    };
+    createOrders();
+  }, [data, userId, products, amount, address]);
 
   //TODO
   // get userId
@@ -122,3 +125,34 @@ const Success = () => {
 };
 
 export default Success;
+
+// GET SINGLE PRODUCT FROM OBJ
+// const productsId = data.cart.products.map((product) => {
+//   return product._id;
+// });
+// console.log('<==> productsId ', productsId);
+
+// EXCLUDE
+// const selectedProducts = data.cart.products.map(
+//   ({ _id, quantity, price }) => ({
+//     _id,
+//     quantity,
+//     price
+//   })
+// );
+// console.log('<==> selectedProducts ', selectedProducts);
+
+// OR MODIFY CONTENTS
+// let modifiedProducts = data.cart.products.map((obj) => ({
+//   productId: obj._id,
+//   productQuantity: obj.quantity,
+//   productPrice: obj.price
+// }));
+// console.log('<==> modifiedProducts', modifiedProducts);
+
+// CART
+// const cartTotal = data.cart.total;
+// console.log('<==> cartTotal ', cartTotal);
+
+// const cartQuantity = data.cart.quantity;
+// console.log('<==> cartQuantity ', cartQuantity);

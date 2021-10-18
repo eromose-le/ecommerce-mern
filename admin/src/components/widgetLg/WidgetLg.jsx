@@ -1,6 +1,21 @@
+import { useState, useEffect } from 'react';
+import { userRequest } from '../../requestMethods';
+import { format } from 'timeago.js';
 import './widgetLg.css';
 
 const WidgetLg = () => {
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    const getOrders = async () => {
+      try {
+        const res = await userRequest.get('orders');
+        setOrders(res.data);
+      } catch (err) {}
+    };
+    getOrders();
+  }, []);
+
   const Button = ({ type }) => {
     return <button className={'widgetLgButton ' + type}>{type}</button>;
   };
@@ -18,69 +33,18 @@ const WidgetLg = () => {
         </thead>
         {/* 1st */}
         <tbody>
-          <tr className="widgetLgTr">
-            <td className="widgetLgUser">
-              <img
-                src="https://images.pexels.com/photos/3992656/pexels-photo-3992656.png?auto=compress&cs=tinysrgb&dpr=2&w=500"
-                alt="User"
-                className="widgetLgImg"
-              />
-              <span className="widgetLgName">Akinwande Vincent</span>
-            </td>
-            <td className="widgetLgDate">14 Oct 2021</td>
-            <td className="widgetLgAmount">$122.00</td>
-            <td className="widgetLgStatus">
-              <Button type="Approved" />
-            </td>
-          </tr>
-          {/* 2nd */}
-          <tr className="widgetLgTr">
-            <td className="widgetLgUser">
-              <img
-                src="https://images.pexels.com/photos/3992656/pexels-photo-3992656.png?auto=compress&cs=tinysrgb&dpr=2&w=500"
-                alt="User"
-                className="widgetLgImg"
-              />
-              <span className="widgetLgName">Akinwande Vincent</span>
-            </td>
-            <td className="widgetLgDate">14 Oct 2021</td>
-            <td className="widgetLgAmount">$122.00</td>
-            <td className="widgetLgStatus">
-              <Button type="Pending" />
-            </td>
-          </tr>
-          {/* 3rd */}
-          <tr className="widgetLgTr">
-            <td className="widgetLgUser">
-              <img
-                src="https://images.pexels.com/photos/3992656/pexels-photo-3992656.png?auto=compress&cs=tinysrgb&dpr=2&w=500"
-                alt="User"
-                className="widgetLgImg"
-              />
-              <span className="widgetLgName">Akinwande Vincent</span>
-            </td>
-            <td className="widgetLgDate">14 Oct 2021</td>
-            <td className="widgetLgAmount">$122.00</td>
-            <td className="widgetLgStatus">
-              <Button type="Approved" />
-            </td>
-          </tr>
-          {/* 4th */}
-          <tr className="widgetLgTr">
-            <td className="widgetLgUser">
-              <img
-                src="https://images.pexels.com/photos/3992656/pexels-photo-3992656.png?auto=compress&cs=tinysrgb&dpr=2&w=500"
-                alt="User"
-                className="widgetLgImg"
-              />
-              <span className="widgetLgName">Akinwande Vincent</span>
-            </td>
-            <td className="widgetLgDate">14 Oct 2021</td>
-            <td className="widgetLgAmount">$122.00</td>
-            <td className="widgetLgStatus">
-              <Button type="Rejected" />
-            </td>
-          </tr>
+          {orders.map((order, i) => (
+            <tr className="widgetLgTr" key={i}>
+              <td className="widgetLgUser">
+                <span className="widgetLgName">{order.userId}</span>
+              </td>
+              <td className="widgetLgDate">{format(order.createdAt)}</td>
+              <td className="widgetLgAmount">$ {order.amount}</td>
+              <td className="widgetLgStatus">
+                <Button type={order.status} />
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

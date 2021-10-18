@@ -16,6 +16,7 @@ import NewUser from './pages/newUser/NewUser';
 import ProductList from './pages/productList/ProductList';
 import Product from './pages/product/Product';
 import NewProduct from './pages/newProduct/NewProduct';
+import Login from './pages/login/Login';
 
 const SidebarFlex = styled.div`
   /* @sidebar.css */
@@ -23,40 +24,50 @@ const SidebarFlex = styled.div`
 `;
 
 function App() {
+  const admin = JSON.parse(
+    JSON.parse(localStorage.getItem('persist:root'))?.user
+  ).currentUser?.isAdmin;
   return (
     <Router>
-      {/* NavBar */}
-      <Topbar />
-      <div className="container">
-        {/* Sidebar */}
-        <SidebarFlex>
-          <Sidebar />
-        </SidebarFlex>
-        {/* Body */}
-        <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/users">
-            <UserList />
-          </Route>
-          <Route path="/user/:userId">
-            <User />
-          </Route>
-          <Route path="/newUser">
-            <NewUser />
-          </Route>
-          <Route path="/products">
-            <ProductList />
-          </Route>
-          <Route path="/product/:productId">
-            <Product />
-          </Route>
-          <Route path="/newProduct">
-            <NewProduct />
-          </Route>
-        </Switch>
-      </div>
+      <Switch>
+        <Route path="/login">
+          <Login />
+        </Route>
+        {/* NavBar */}
+        {admin && (
+          <>
+            <Topbar />
+            <div className="container">
+              {/* Sidebar */}
+              <SidebarFlex>
+                <Sidebar />
+              </SidebarFlex>
+              {/* Body */}
+              <Route exact path="/">
+                <Home />
+              </Route>
+              <Route path="/users">
+                <UserList />
+              </Route>
+              <Route path="/user/:userId">
+                <User />
+              </Route>
+              <Route path="/newUser">
+                <NewUser />
+              </Route>
+              <Route path="/products">
+                <ProductList />
+              </Route>
+              <Route path="/product/:productId">
+                <Product />
+              </Route>
+              <Route path="/newProduct">
+                <NewProduct />
+              </Route>
+            </div>
+          </>
+        )}
+      </Switch>
     </Router>
   );
 }
