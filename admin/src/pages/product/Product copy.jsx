@@ -21,23 +21,26 @@ const Product = () => {
   const productId = location.pathname.split('/')[2];
   const [pStats, setPStats] = useState([]);
   const [prodId, setProdId] = useState(productId);
+  const [fireImg, setFireImg] = useState({});
 
+  console.log('pp', prodId);
   const product = useSelector((state) =>
     state.product.products.find((product) => product._id === productId)
   );
 
   // UPDATE
-  const [file, setFile] = useState(product?.img);
-  const [cat, setCat] = useState(product?.categories);
-  const [color, setColor] = useState(product?.color);
-  const [size, setSize] = useState(product?.size);
+  const [inputs, setInputs] = useState({});
+  const [file, setFile] = useState(null);
+  const [cat, setCat] = useState([]);
+  const [color, setColor] = useState([]);
+  const [size, setSize] = useState([]);
   const dispatch = useDispatch();
 
-  // INPUT
-  const [title, setTitle] = useState(product?.title);
-  const [desc, setDesc] = useState(product?.desc);
-  const [price, setPrice] = useState(product?.price);
-  const [inStock, setInStock] = useState(product?.inStock);
+  const handleChange = (e) => {
+    setInputs((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
+  };
 
   const handleCat = (e) => {
     setCat(e.target.value.split(','));
@@ -84,48 +87,27 @@ const Product = () => {
         },
         (error) => {
           // Handle unsuccessful uploads
+          console.log(error);
         },
         () => {
           // Handle successful uploads on complete
           // For instance, get the download URL: https://firebasestorage.googleapis.com/...
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            const id = prodId;
             const product = {
-              title,
-              desc,
-              price,
-              inStock,
+              ...inputs,
               img: downloadURL,
               categories: cat,
               color,
-              size,
-              _id: id
+              size
             };
             setProdId(prodId);
-
+            const id = prodId;
             console.log(product, id);
-            updateProduct(id, product, dispatch);
+            // updateProduct(id, product, dispatch);
           });
         }
       );
-      // IF NO IMAGE IN UPDATE FORM
-    } catch (e) {
-      const id = prodId;
-      const product = {
-        title,
-        desc,
-        price,
-        inStock,
-        img: file,
-        categories: cat,
-        color,
-        size,
-        _id: id
-      };
-      setProdId(prodId);
-      console.log(product, id);
-      updateProduct(id, product, dispatch);
-    }
+    } catch (err) {}
   };
 
   const MONTHS = useMemo(
@@ -210,55 +192,43 @@ const Product = () => {
             <input
               name="title"
               type="text"
-              defaultValue={product?.title}
               placeholder={product?.title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={handleChange}
             />
             <label>Product Description</label>
-            <textarea
+            <input
               name="desc"
               type="text"
-              defaultValue={product?.desc}
               placeholder={product?.desc}
-              onChange={(e) => setDesc(e.target.value)}
+              onChange={handleChange}
             />
             <label>Price</label>
             <input
               name="price"
-              type="number"
-              defaultValue={product?.price}
+              type="text"
               placeholder={product?.price}
-              onChange={(e) => setPrice(e.target.value)}
+              onChange={handleChange}
             />
             <label>Categories</label>
             <input
               type="text"
-              defaultValue={product?.categories}
               placeholder={product?.categories}
               onChange={handleCat}
             />
             <label>Color</label>
             <input
               type="text"
-              defaultValue={product?.color}
               placeholder={product?.color}
               onChange={handleColor}
             />
             <label>Size</label>
             <input
               type="text"
-              defaultValue={product?.size}
               placeholder={product?.size}
               onChange={handleSize}
             />
             <label>In stock</label>
-            <select
-              name="inStock"
-              defaultValue={product?.inStock}
-              onChange={(e) => setInStock(e.target.value)}
-              id="idstock"
-            >
-              <option disabled>select</option>
+            <select name="inStock" onChange={handleChange} id="idstock">
               <option value="true">Yes</option>
               <option value="false">No</option>
             </select>
@@ -271,7 +241,7 @@ const Product = () => {
                 alt="product"
                 className="productUploadImg"
               />
-              <label htmlFor="file">
+              <label for="file">
                 <Publish />
               </label>
               <input

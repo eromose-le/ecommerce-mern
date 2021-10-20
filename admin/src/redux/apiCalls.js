@@ -50,7 +50,7 @@ export const getProducts = async (dispatch) => {
 export const deleteProduct = async (id, dispatch) => {
   dispatch(deleteProductStart());
   try {
-    // const res = await userRequest.delete(`/products/${id}`);
+    const res = await userRequest.delete(`/products/${id}`);
     dispatch(deleteProductSuccess(id));
   } catch (err) {
     dispatch(deleteProductFailure());
@@ -59,9 +59,10 @@ export const deleteProduct = async (id, dispatch) => {
 
 // UPDATE PRODUCTS
 export const updateProduct = async (id, product, dispatch) => {
+  console.log('apiRes', id, product);
   dispatch(updateProductStart());
   try {
-    // const res = await userRequest.put(`/products/${id}`);
+    const res = await userRequest.put(`/products/${id}`, product);
     dispatch(updateProductSuccess({ id, product }));
   } catch (err) {
     dispatch(updateProductFailure());

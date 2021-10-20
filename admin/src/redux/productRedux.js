@@ -59,7 +59,7 @@ const userSlice = createSlice({
     },
     addProductSuccess: (state, action) => {
       state.isFetching = false;
-      state.products[state.products.push(action.payload)] = action.payload.user;
+      state.products.push(action.payload);
     },
     addProductFailure: (state) => {
       state.isFetching = false;

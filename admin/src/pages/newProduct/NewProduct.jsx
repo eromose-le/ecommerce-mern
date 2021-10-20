@@ -14,6 +14,8 @@ const NewProduct = () => {
   const [inputs, setInputs] = useState({});
   const [file, setFile] = useState(null);
   const [cat, setCat] = useState([]);
+  const [color, setColor] = useState([]);
+  const [size, setSize] = useState([]);
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -24,6 +26,14 @@ const NewProduct = () => {
 
   const handleCat = (e) => {
     setCat(e.target.value.split(','));
+  };
+
+  const handleColor = (e) => {
+    setColor(e.target.value.split(','));
+  };
+
+  const handleSize = (e) => {
+    setSize(e.target.value.split(','));
   };
 
   const handleClick = (e) => {
@@ -62,14 +72,20 @@ const NewProduct = () => {
         // Handle successful uploads on complete
         // For instance, get the download URL: https://firebasestorage.googleapis.com/...
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          const product = { ...inputs, img: downloadURL, categories: cat };
+          const product = {
+            ...inputs,
+            img: downloadURL,
+            categories: cat,
+            color,
+            size
+          };
+          console.log('product', product);
           addProduct(product, dispatch);
         });
       }
     );
   };
 
-  console.log(file);
   return (
     <div className="newProduct">
       <h1 className="addProductTitle">New Product</h1>
@@ -114,7 +130,15 @@ const NewProduct = () => {
           <input type="text" placeholder="jeas, skirts" onChange={handleCat} />
         </div>
         <div className="addProductItem">
-          <label>Stock</label>
+          <label>Color</label>
+          <input type="text" placeholder="blue, white" onChange={handleColor} />
+        </div>
+        <div className="addProductItem">
+          <label>Size</label>
+          <input type="text" placeholder="S, M, L, XL" onChange={handleSize} />
+        </div>
+        <div className="addProductItem">
+          <label>In stock</label>
           <select name="inStock" onChange={handleChange}>
             <option value="true">Yes</option>
             <option value="false">No</option>

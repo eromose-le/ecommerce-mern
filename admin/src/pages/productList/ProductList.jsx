@@ -64,6 +64,7 @@ const ProductList = () => {
   return (
     <div className="productList">
       <DataGrid
+        _id={Math.random()}
         rows={products}
         disableSelectionOnClick
         columns={columns}
