@@ -1,28 +1,42 @@
 import './userList.css';
 import { DataGrid } from '@mui/x-data-grid';
 import { DeleteOutline } from '@material-ui/icons';
+import { format } from 'timeago.js';
 
-import { userRows } from '../../dummyData';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteClient, getClients } from '../../redux/apiCalls';
 
 const UserList = () => {
-  const [data, setData] = useState(userRows);
+  const dispatch = useDispatch();
+  const clients = useSelector((state) => state.client.clients);
+
+  useEffect(() => {
+    getClients(dispatch);
+  }, [dispatch]);
 
   const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+    deleteClient(id, dispatch);
   };
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
+    { field: '_id', headerName: 'ID', width: 210 },
     {
-      field: 'user',
+      field: 'username',
       headerName: 'User',
       width: 200,
       renderCell: (params) => {
         return (
           <div className="userListUser">
-            <img className="userListImg" src={params.row.avatar} alt="avatar" />
+            <img
+              className="userListImg"
+              src={
+                params.row.avatar ||
+                'https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif'
+              }
+              alt="avatar"
+            />
             {params.row.username}
           </div>
         );
@@ -30,14 +44,17 @@ const UserList = () => {
     },
     { field: 'email', headerName: 'Email', width: 200 },
     {
-      field: 'status',
-      headerName: 'Status',
+      field: 'isAdmin',
+      headerName: 'Admin',
       width: 120
     },
     {
-      field: 'transaction',
-      headerName: 'Transaction',
-      width: 160
+      field: 'createdAt',
+      headerName: 'Created_At',
+      width: 160,
+      renderCell: (params) => {
+        return <>{`${format(params.row.createdAt)}`}</>;
+      }
     },
     {
       field: 'action',
@@ -46,12 +63,12 @@ const UserList = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link to={`/user/${params.row.id}`}>
+            <Link to={`/user/${params.row._id}`}>
               <button className="userListEdit">Edit</button>
             </Link>
             <DeleteOutline
               className="userListDelete"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => handleDelete(params.row._id)}
             />
           </>
         );
@@ -62,9 +79,11 @@ const UserList = () => {
   return (
     <div className="userList">
       <DataGrid
-        rows={data}
+        _id={Math.random()}
+        rows={clients}
         disableSelectionOnClick
         columns={columns}
+        getRowId={(row) => row?._id}
         pageSize={8}
         rowsPerPageOptions={[8]}
         checkboxSelection

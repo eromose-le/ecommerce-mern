@@ -19,6 +19,14 @@ import {
   addProductStart,
   addProductSuccess
 } from './productRedux';
+import {
+  getClientStart,
+  getClientSuccess,
+  getClientFailure,
+  deleteClientFailure,
+  deleteClientStart,
+  deleteClientSuccess
+} from './clientRedux';
 
 // AUTH
 export const login = async (dispatch, user) => {
@@ -77,5 +85,27 @@ export const addProduct = async (product, dispatch) => {
     dispatch(addProductSuccess(res.data));
   } catch (err) {
     dispatch(addProductFailure());
+  }
+};
+
+// GET CLIENTS
+export const getClients = async (dispatch) => {
+  dispatch(getClientStart());
+  try {
+    const res = await userRequest.get('/users');
+    dispatch(getClientSuccess(res.data));
+  } catch (err) {
+    dispatch(getClientFailure());
+  }
+};
+
+// DELETE CLIENT
+export const deleteClient = async (id, dispatch) => {
+  dispatch(deleteClientStart());
+  try {
+    const res = await userRequest.delete(`/users/${id}`);
+    dispatch(deleteClientSuccess(id));
+  } catch (err) {
+    dispatch(deleteClientFailure());
   }
 };
