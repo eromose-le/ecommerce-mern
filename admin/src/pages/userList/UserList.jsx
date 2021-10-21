@@ -32,7 +32,7 @@ const UserList = () => {
             <img
               className="userListImg"
               src={
-                params.row.avatar ||
+                params.row.img ??
                 'https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif'
               }
               alt="avatar"

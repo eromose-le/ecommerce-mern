@@ -36,6 +36,21 @@ const clientSlice = createSlice({
     deleteClientFailure: (state) => {
       state.isFetching = false;
       state.error = true;
+    },
+    // CREATE
+    updateClientStart: (state) => {
+      state.isFetching = true;
+      state.error = false;
+    },
+    updateClientSuccess: (state, action) => {
+      state.isFetching = false;
+      state.clients[
+        state.clients.findIndex((item) => item._id === action.payload.id)
+      ] = action.payload.client;
+    },
+    updateClientFailure: (state) => {
+      state.isFetching = false;
+      state.error = true;
     }
   }
 });
@@ -46,6 +61,9 @@ export const {
   getClientFailure,
   deleteClientStart,
   deleteClientSuccess,
-  deleteClientFailure
+  deleteClientFailure,
+  updateClientStart,
+  updateClientSuccess,
+  updateClientFailure
 } = clientSlice.actions;
 export default clientSlice.reducer;

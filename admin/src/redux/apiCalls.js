@@ -25,7 +25,10 @@ import {
   getClientFailure,
   deleteClientFailure,
   deleteClientStart,
-  deleteClientSuccess
+  deleteClientSuccess,
+  updateClientStart,
+  updateClientSuccess,
+  updateClientFailure
 } from './clientRedux';
 
 // AUTH
@@ -43,6 +46,7 @@ export const logout = async (dispatch, user) => {
   dispatch(logoutFunc(user));
 };
 
+// ---------------------------------------------------------------
 // GET PRODUCTS
 export const getProducts = async (dispatch) => {
   dispatch(getProductStart());
@@ -88,6 +92,7 @@ export const addProduct = async (product, dispatch) => {
   }
 };
 
+// ---------------------------------------------------------------
 // GET CLIENTS
 export const getClients = async (dispatch) => {
   dispatch(getClientStart());
@@ -107,5 +112,17 @@ export const deleteClient = async (id, dispatch) => {
     dispatch(deleteClientSuccess(id));
   } catch (err) {
     dispatch(deleteClientFailure());
+  }
+};
+
+// UPDATE CLIENT
+export const updateClient = async (id, client, dispatch) => {
+  console.log('_apiResUpdateClient_', id, client);
+  dispatch(updateClientStart());
+  try {
+    const res = await userRequest.put(`/users/${id}`, client);
+    dispatch(updateClientSuccess({ id, client }));
+  } catch (err) {
+    dispatch(updateClientFailure());
   }
 };
