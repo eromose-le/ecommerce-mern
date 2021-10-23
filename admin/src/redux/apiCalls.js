@@ -71,7 +71,6 @@ export const deleteProduct = async (id, dispatch) => {
 
 // UPDATE PRODUCTS
 export const updateProduct = async (id, product, dispatch) => {
-  console.log('apiRes', id, product);
   dispatch(updateProductStart());
   try {
     const res = await userRequest.put(`/products/${id}`, product);
@@ -117,7 +116,6 @@ export const deleteClient = async (id, dispatch) => {
 
 // UPDATE CLIENT
 export const updateClient = async (id, client, dispatch) => {
-  console.log('_apiResUpdateClient_', id, client);
   dispatch(updateClientStart());
   try {
     const res = await userRequest.put(`/users/${id}`, client);

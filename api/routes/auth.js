@@ -46,7 +46,7 @@ router.post('/login', async (req, res) => {
     OriginalPassword !== req.body.password &&
       res.status(401).json('Wrong credentials!');
 
-    // CREATE TOKEN FOR SUCCESSFUL SIGNED IN USER
+    // CREATE TOKEN FOR SUCCESSFUL SIGNED IN USER && EXPIRE TOKEN TIMEOUT
     const accessToken = jwt.sign(
       {
         id: user._id,

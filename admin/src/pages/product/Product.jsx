@@ -1,7 +1,7 @@
 import { Publish } from '@material-ui/icons';
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 import Chart from '../../components/chart/Chart';
 import { userRequest } from '../../requestMethods';
 import './product.css';
@@ -18,6 +18,7 @@ import { updateProduct } from '../../redux/apiCalls';
 
 const Product = () => {
   const location = useLocation();
+  const history = useHistory();
   const productId = location.pathname.split('/')[2];
   const [pStats, setPStats] = useState([]);
   const [prodId, setProdId] = useState(productId);
@@ -101,15 +102,19 @@ const Product = () => {
               size,
               _id: id
             };
+
+            updateProduct(id, product, dispatch);
             setProdId(prodId);
 
-            console.log(product, id);
-            updateProduct(id, product, dispatch);
+            // console.log(product, id);
+            if (product) {
+              alert('Product Updated!!');
+            }
           });
         }
       );
       // IF NO IMAGE IN UPDATE FORM
-    } catch (e) {
+    } catch {
       const id = prodId;
       const product = {
         title,
@@ -122,9 +127,15 @@ const Product = () => {
         size,
         _id: id
       };
+
+      await updateProduct(id, product, dispatch);
       setProdId(prodId);
-      console.log(product, id);
-      updateProduct(id, product, dispatch);
+
+      // console.log(product, id);
+      if (product) {
+        alert('Product Updated!!');
+        history.push('/products');
+      }
     }
   };
 
@@ -187,16 +198,18 @@ const Product = () => {
           </div>
           <div className="productInfoBottom">
             <div className="productInforItem">
-              <span className="productInfoKey">{product?._id} :</span>
-              <span className="productInfoValue">123</span>
+              <span className="productInfoKey">Id :</span>
+              <span className="productInfoValue">{product?._id}</span>
             </div>
             <div className="productInforItem">
               <span className="productInfoKey">sales:</span>
-              <span className="productInfoValue">5123</span>
+              <span className="productInfoValue">50</span>
             </div>
             <div className="productInforItem">
               <span className="productInfoKey">in stock:</span>
-              <span className="productInfoValue">{product?.inStock}</span>
+              <span className="productInfoValue">
+                {product?.inStock === true ? 'Available' : 'Not available'}
+              </span>
             </div>
           </div>
         </div>
