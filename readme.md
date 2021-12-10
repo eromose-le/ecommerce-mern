@@ -67,7 +67,7 @@ A fully blown MERN ecommerce application with REST API, has both the client side
 
 https://github.com/eromose-le/ecommerce-mern.git
 
-git push origin main
+git push origin develop
 
 ## `LINK TO DASHBOARD ON HEROKU`
 
