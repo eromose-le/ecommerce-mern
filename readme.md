@@ -1,5 +1,7 @@
 ## `INSTRUCTIONS TO STARTUP PROJECT`
 
+> clone develop branch
+
 cd client folder (UI)
 
 > run npm install
