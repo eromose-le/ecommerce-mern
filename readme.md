@@ -65,10 +65,10 @@ A fully blown MERN ecommerce application with REST API, has both the client side
 
 ## `REPO`
 
-https://github.com/eromose-le/ba.admin-dashboard.git
+https://github.com/eromose-le/ecommerce-mern.git
 
 git push origin main
 
 ## `LINK TO DASHBOARD ON HEROKU`
 
-https://ba-admin-dashboard-react.herokuapp.com/
+NILL
