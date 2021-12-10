@@ -13,6 +13,7 @@ const userSlice = createSlice({
     },
     loginSuccess: (state, action) => {
       state.isFetching = false;
+      localStorage.setItem('presist:root', 'token');
       state.currentUser = action.payload;
     },
     loginFailure: (state) => {
