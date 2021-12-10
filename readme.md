@@ -17,7 +17,19 @@ cd admin folder (ADMIN DASHBOARD)
 > run npm install
 > run npm start
 
-## `ADMIN AVAILABLE`
+## `CONFIGURURATION`
+
+> API
+>
+> - Locate .env.local file and rename to .env
+> - Provide the necessary value such as MONGODB connection string, Stripe Key
+>
+> CLIENT
+>
+> - Locate .env.local file and rename to .env
+> - Provide the necessary value such as Stripe Public_Key
+
+## `ADMIN ROUTES`
 
 - /
 - /users
