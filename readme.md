@@ -17,7 +17,7 @@ cd admin folder (ADMIN DASHBOARD)
 > run npm install
 > run npm start
 
-## `ADMIN AVAILABLE`
+## `ADMIN ROUTES`
 
 - /
 - /users
