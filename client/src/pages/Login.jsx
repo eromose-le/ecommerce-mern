@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { mobile } from '../responsive';
 import { Link } from 'react-router-dom';
@@ -87,10 +87,6 @@ const Login = () => {
   const dispatch = useDispatch();
   // GET DATA FROM STATE
   const { isFetching, error } = useSelector((state) => state.user);
-
-  useEffect(() => {
-    localStorage.setItem('root', 'token');
-  });
 
   const handleClick = (e) => {
     e.preventDefault();
